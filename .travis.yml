@@ -9,4 +9,10 @@ jdk:
 script:
   - git config core.whitespace tab-in-indent,trailing-space,space-before-tab,cr-at-eol
   - git show --oneline --check
-  - sbt test
+  - if [[ "${TRAVIS_PULL_REQUEST}" == "false" && ${JAVA_HOME} == $(jdk_switcher home oraclejdk7) && "${TRAVIS_BRANCH}" == "master" ]]; then export PUBLISH_SONATYPE=true; fi
+  - sbt $(if [[ "${PUBLISH_SONATYPE}" == "true" ]]; then echo "" ; else echo "-Ddisable_sxr"; fi) test $(if [[ "${PUBLISH_SONATYPE}" == "true" ]]; then echo "publish" ; fi)
+
+env:
+  global:
+  - secure: Dd8EKnFHzBqNru9AlKF8Xz0L2t9/ByUZPPFd974qB2Gpf+gl61GiOS71yWxeIvycwhFRtbXKO9Wbgr+IIJfr4OTpu0SmcF1TcxaH1+adHokBmOPM9rkyDzY7YMOUjORlO54Pwzjngddkhekp5JilLkHn5L0bUskw1HACxjoUcoo=
+  - secure: KINFn+IzSM/0Dao06UQOKKT/Ki62hQt6A6p27hXIDlfNsFEcfb45K6jg7m8Vbao3nHNn4JDV/I8mPEITZA+URZWjoq3ZdgNGMrwAoBXhm/cAumAgudBUk/9djj1e+LWwpAdHxnkhZwswwtiWOFpPbIbQitQ5AXYPFsnEmmDf2ZI=
