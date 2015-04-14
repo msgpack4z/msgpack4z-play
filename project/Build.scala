@@ -14,7 +14,7 @@ object build extends Build {
       ("com.github.xuwei-k" %% "msgpack4z-core" % "0.1.2") ::
       ("org.scalacheck" %% "scalacheck" % "1.12.2" % "test") ::
       ("com.github.xuwei-k" % "msgpack4z-java07" % "0.1.3" % "test").exclude("org.msgpack", "msgpack-core") ::
-      ("org.msgpack" % "msgpack-core" % "0.7.0-p7" % "test") ::
+      ("org.msgpack" % "msgpack-core" % "0.7.0-p8" % "test") ::
       ("com.github.xuwei-k" % "msgpack4z-java06" % "0.1.0" % "test") ::
       ("com.github.xuwei-k" %% "msgpack4z-native" % "0.1.0" % "test") ::
       Nil
