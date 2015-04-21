@@ -5,40 +5,40 @@ import scalaz.{-\/, \/, \/-}
 
 object Play2Msgpack {
 
-  def jsValueCodec(undefHander: UndefinedHandler, options: PlayUnpackOptions): MsgpackCodec[JsValue] =
-    new CodecPlay2JsValue(undefHander, options)
+  def jsValueCodec(options: PlayUnpackOptions): MsgpackCodec[JsValue] =
+    new CodecPlay2JsValue(options)
 
-  def jsArrayCodec(undefHander: UndefinedHandler, options: PlayUnpackOptions): MsgpackCodec[JsArray] =
-    new CodecPlay2JsArray(undefHander, options)
+  def jsArrayCodec(options: PlayUnpackOptions): MsgpackCodec[JsArray] =
+    new CodecPlay2JsArray(options)
 
-  def jsObjCodec(undefHander: UndefinedHandler, options: PlayUnpackOptions): MsgpackCodec[JsObject] =
-    new CodecPlay2JsObject(undefHander, options)
+  def jsObjCodec(options: PlayUnpackOptions): MsgpackCodec[JsObject] =
+    new CodecPlay2JsObject(options)
 
-  def allCodec(undefHander: UndefinedHandler, options: PlayUnpackOptions): (MsgpackCodec[JsValue], MsgpackCodec[JsArray], MsgpackCodec[JsObject]) = (
-    jsValueCodec(undefHander, options),
-    jsArrayCodec(undefHander, options),
-    jsObjCodec(undefHander, options)
+  def allCodec(options: PlayUnpackOptions): (MsgpackCodec[JsValue], MsgpackCodec[JsArray], MsgpackCodec[JsObject]) = (
+    jsValueCodec(options),
+    jsArrayCodec(options),
+    jsObjCodec(options)
   )
 
-  def jsObj2msgpack(packer: MsgPacker, obj: JsObject, ifUndef: UndefinedHandler): Unit = {
+  def jsObj2msgpack(packer: MsgPacker, obj: JsObject): Unit = {
     val fields = obj.value
     packer.packMapHeader(fields.size)
     fields.foreach { field =>
       packer.packString(field._1)
-      json2msgpack(packer, field._2, ifUndef)
+      json2msgpack(packer, field._2)
     }
     packer.mapEnd()
   }
 
-  def jsArray2msgpack(packer: MsgPacker, array: JsArray, ifUndef: UndefinedHandler): Unit = {
+  def jsArray2msgpack(packer: MsgPacker, array: JsArray): Unit = {
     packer.packArrayHeader(array.value.size)
     array.value.foreach { x =>
-      json2msgpack(packer, x, ifUndef)
+      json2msgpack(packer, x)
     }
     packer.arrayEnd()
   }
 
-  def json2msgpack(packer: MsgPacker, json: JsValue, ifUndef: UndefinedHandler): Unit = {
+  def json2msgpack(packer: MsgPacker, json: JsValue): Unit = {
     json match {
       case JsNumber(v) =>
         if (v.isValidLong) {
@@ -56,13 +56,11 @@ object Play2Msgpack {
       case JsBoolean(v) =>
         packer.packBoolean(v)
       case v @ JsObject(_) =>
-        jsObj2msgpack(packer, v, ifUndef)
+        jsObj2msgpack(packer, v)
       case v @ JsArray(_) =>
-        jsArray2msgpack(packer, v, ifUndef)
+        jsArray2msgpack(packer, v)
       case JsNull =>
         packer.packNil
-      case JsUndefined() =>
-        ifUndef.f(packer)
     }
   }
 
@@ -226,17 +224,17 @@ object Play2Msgpack {
 }
 
 
-private final class CodecPlay2JsArray(ifUndef: UndefinedHandler, unpackOptions: PlayUnpackOptions) extends MsgpackCodecConstant[JsArray](
-  (packer, js) => Play2Msgpack.jsArray2msgpack(packer, js, ifUndef),
+private final class CodecPlay2JsArray(unpackOptions: PlayUnpackOptions) extends MsgpackCodecConstant[JsArray](
+  (packer, js) => Play2Msgpack.jsArray2msgpack(packer, js),
   unpacker => Play2Msgpack.msgpack2jsArray(unpacker, unpackOptions)
 )
 
-private final class CodecPlay2JsValue(ifUndef: UndefinedHandler, unpackOptions: PlayUnpackOptions) extends MsgpackCodecConstant[JsValue](
-  (packer, js) => Play2Msgpack.json2msgpack(packer, js, ifUndef),
+private final class CodecPlay2JsValue(unpackOptions: PlayUnpackOptions) extends MsgpackCodecConstant[JsValue](
+  (packer, js) => Play2Msgpack.json2msgpack(packer, js),
   unpacker => Play2Msgpack.msgpack2json(unpacker, unpackOptions)
 )
 
-private final class CodecPlay2JsObject(ifUndef: UndefinedHandler, unpackOptions: PlayUnpackOptions) extends MsgpackCodecConstant[JsObject](
-  (packer, js) => Play2Msgpack.jsObj2msgpack(packer, js, ifUndef),
+private final class CodecPlay2JsObject(unpackOptions: PlayUnpackOptions) extends MsgpackCodecConstant[JsObject](
+  (packer, js) => Play2Msgpack.jsObj2msgpack(packer, js),
   unpacker => Play2Msgpack.msgpack2jsObj(unpacker, unpackOptions)
 )

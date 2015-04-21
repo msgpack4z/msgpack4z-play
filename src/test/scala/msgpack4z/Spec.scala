@@ -77,7 +77,6 @@ abstract class SpecBase(name: String) extends Properties(name){
 
   property("play-json") = {
     implicit val codecInstance = Play2Msgpack.jsValueCodec(
-      UndefinedHandler.ThrowSysError,
       PlayUnpackOptions.default
     )
     implicit val equalInstance = Equal.equalA[JsValue]
