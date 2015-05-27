@@ -22,7 +22,6 @@ object Common {
     sonatypeSettings
   ).flatten ++ Seq(
     resolvers += Opts.resolver.sonatypeReleases,
-    resolvers += "typesafe" at "http://typesafe.artifactoryonline.com/typesafe/releases",
     testOptions in Test += Tests.Argument(
       TestFrameworks.ScalaCheck, "-minSuccessfulTests", "300"
     ),
