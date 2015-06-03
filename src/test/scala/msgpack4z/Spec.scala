@@ -1,69 +1,55 @@
-package msgpack6z
+package msgpack4z
 
-import msgpack4z._
-import org.scalacheck.{Gen, Arbitrary, Prop, Properties}
+import scalaprops._
 import play.api.libs.json._
-import scala.util.control.NonFatal
 import scalaz.{-\/, Equal, \/-}
 
-abstract class SpecBase(name: String) extends Properties(name){
+abstract class SpecBase extends Scalaprops {
+
+  private[this] implicit val stringGen = Gen.alphaNumString
 
   private val bigDecimalGen: Gen[BigDecimal] =
-    Gen.choose(Long.MinValue, Long.MaxValue).map(BigDecimal(_))
+    Gen[Long].map(BigDecimal(_))
 
-  private val jsValuePrimitivesArb: Arbitrary[JsValue] =
-    Arbitrary(Gen.oneOf(
-      Gen.const(JsNull),
-      gen[Boolean].map(JsBoolean),
+  private val jsValuePrimitivesArb: Gen[JsValue] =
+    Gen.oneOf(
+      Gen.value(JsNull),
+      Gen[Boolean].map(JsBoolean),
       bigDecimalGen.map(JsNumber),
-      gen[String].map(JsString)
-    ))
+      Gen[String].map(JsString)
+    )
 
-  private val jsObjectArb1: Arbitrary[JsObject] =
-    Arbitrary(Gen.choose(0, 6).flatMap(n =>
-      Gen.listOfN(
-        n,
-        Arbitrary.arbTuple2(
-          arb[String], jsValuePrimitivesArb
-        ).arbitrary
-      ).map(pairs => JsObject(pairs.toMap.toSeq))
-    ))
+  private val jsObjectArb1: Gen[JsObject] =
+    Gen.listOfN(
+      10,
+      Gen.tuple2(
+        Gen[String], jsValuePrimitivesArb
+      )
+    ).map(pairs => JsObject(pairs.toMap.toSeq))
 
-  private val jsArrayArb1: Arbitrary[JsArray] =
-    Arbitrary(Gen.choose(0, 6).flatMap(n =>
-      Gen.listOfN(n, jsValuePrimitivesArb.arbitrary).map(JsArray)
-    ))
+  private val jsArrayArb1: Gen[JsArray] =
+    Gen.listOfN(10, jsValuePrimitivesArb).map(JsArray)
 
-  implicit val jsValueArb: Arbitrary[JsValue] =
-    Arbitrary(Gen.oneOf(
-      jsValuePrimitivesArb.arbitrary,
-      jsObjectArb1.arbitrary,
-      jsArrayArb1.arbitrary
-    ))
+  implicit val jsValueArb: Gen[JsValue] =
+    Gen.oneOf(
+      jsValuePrimitivesArb,
+      jsObjectArb1.map(identity),
+      jsArrayArb1.map(identity)
+    )
 
-  implicit val jsObjectArb: Arbitrary[JsObject] =
-    Arbitrary(Gen.choose(0, 6).flatMap(n =>
-      Gen.listOfN(
-        n,
-        Arbitrary.arbTuple2(arb[String], jsValueArb).arbitrary
-      ).map(pairs => JsObject(pairs.toMap.toSeq))
-    ))
+  implicit val jsObjectArb: Gen[JsObject] =
+    Gen.listOfN(
+      10,
+      Gen.tuple2(Gen[String], jsValueArb)
+    ).map(pairs => JsObject(pairs.toMap.toSeq))
 
-  implicit val jsArrayArb: Arbitrary[JsArray] =
-    Arbitrary(Gen.choose(0, 6).flatMap(n =>
-      Gen.listOfN(n, jsValueArb.arbitrary).map(JsArray)
-    ))
-
-  final def gen[A: Arbitrary]: Gen[A] =
-    implicitly[Arbitrary[A]].arbitrary
-
-  final def arb[A: Arbitrary]: Arbitrary[A] =
-    implicitly[Arbitrary[A]]
+  implicit val jsArrayArb: Gen[JsArray] =
+    Gen.listOfN(10, jsValueArb).map(JsArray)
 
   protected[this] def packer(): MsgPacker
   protected[this] def unpacker(bytes: Array[Byte]): MsgUnpacker
 
-  private def checkRoundTripBytes[A](a: A)(implicit A: MsgpackCodec[A], G: Arbitrary[A], E: Equal[A]): Boolean =
+  private def checkRoundTripBytes[A](a: A)(implicit A: MsgpackCodec[A], G: Gen[A], E: Equal[A]): Boolean =
     A.roundtripz(a, packer(), unpacker _) match {
       case None =>
         true
@@ -75,39 +61,30 @@ abstract class SpecBase(name: String) extends Properties(name){
         false
     }
 
-  property("play-json") = {
+  val test = {
     implicit val codecInstance = Play2Msgpack.jsValueCodec(
       UndefinedHandler.ThrowSysError,
       PlayUnpackOptions.default
     )
     implicit val equalInstance = Equal.equalA[JsValue]
 
-    Prop.forAll{ json: JsValue =>
-      Prop.secure{
-        try {
-          checkRoundTripBytes(json)
-        }catch{
-          case NonFatal(e) =>
-            println(json)
-            println(e.getStackTrace.map("\tat " + _).mkString("\n" + e.toString + "\n","\n", "\n"))
-            throw e
-        }
-      }
+    Property.forAll { json: JsValue =>
+      checkRoundTripBytes(json)
     }
   }
 }
 
-object Java06Spec extends SpecBase("java06"){
+object Java06Spec extends SpecBase{
   override protected[this] def packer() = Msgpack06.defaultPacker()
   override protected[this] def unpacker(bytes: Array[Byte]) = Msgpack06.defaultUnpacker(bytes)
 }
 
-object Java07Spec extends SpecBase("java07"){
+object Java07Spec extends SpecBase{
   override protected[this] def packer() = new Msgpack07Packer()
   override protected[this] def unpacker(bytes: Array[Byte]) = Msgpack07Unpacker.defaultUnpacker(bytes)
 }
 
-object NativeSpec extends SpecBase("native"){
+object NativeSpec extends SpecBase{
   override protected[this] def packer() = MsgOutBuffer.create()
   override protected[this] def unpacker(bytes: Array[Byte]) = MsgInBuffer(bytes)
 }

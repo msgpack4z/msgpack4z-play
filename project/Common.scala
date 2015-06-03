@@ -22,9 +22,6 @@ object Common {
     sonatypeSettings
   ).flatten ++ Seq(
     resolvers += Opts.resolver.sonatypeReleases,
-    testOptions in Test += Tests.Argument(
-      TestFrameworks.ScalaCheck, "-minSuccessfulTests", "300"
-    ),
     fullResolvers ~= {_.filterNot(_.name == "jcenter")},
     commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
     releaseProcess := Seq[ReleaseStep](
