@@ -22,9 +22,6 @@ object Common {
     sonatypeSettings
   ).flatten ++ Seq(
     resolvers += Opts.resolver.sonatypeReleases,
-    testOptions in Test += Tests.Argument(
-      TestFrameworks.ScalaCheck, "-minSuccessfulTests", "300"
-    ),
     commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
     releaseProcess := Seq[ReleaseStep](
       ReleaseStep{ state =>
