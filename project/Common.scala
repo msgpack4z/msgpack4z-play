@@ -59,6 +59,7 @@ object Common {
       "-language:existentials" ::
       "-language:higherKinds" ::
       "-language:implicitConversions" ::
+      "-Yno-adapted-args" ::
       Nil
     ) ::: unusedWarnings,
     scalaVersion := "2.11.7",

@@ -10,5 +10,6 @@ scalacOptions ++= (
   "-language:existentials" ::
   "-language:higherKinds" ::
   "-language:implicitConversions" ::
+  "-Yno-adapted-args" ::
   Nil
 )
