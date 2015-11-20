@@ -14,7 +14,7 @@ object build extends Build {
     name := msgpack4zPlayName,
     scalapropsVersion := "0.1.16",
     libraryDependencies ++= (
-      ("com.typesafe.play" %% "play-json" % "2.4.3") ::
+      ("com.typesafe.play" %% "play-json" % "2.4.4") ::
       ("com.github.xuwei-k" %% "msgpack4z-core" % "0.1.4") ::
       ("com.github.xuwei-k" % "msgpack4z-java07" % "0.1.5" % "test") ::
       ("com.github.xuwei-k" % "msgpack4z-java06" % "0.1.1" % "test") ::
