@@ -5,9 +5,10 @@ import java.util.Base64
 import msgpack4z.PlayUnpackOptions.NonStringKeyHandler
 import play.api.libs.json._
 import scalaz.{\/-, -\/}
+import java.util.Base64
 
 final case class PlayUnpackOptions(
-  extended: Unpacker[JsValue],
+  extension: Unpacker[JsValue],
   binary: Unpacker[JsValue],
   positiveInf: UnpackResult[JsValue],
   negativeInf: UnpackResult[JsValue],
@@ -34,8 +35,18 @@ object PlayUnpackOptions {
 
   type NonStringKeyHandler = (MsgType, MsgUnpacker) => Option[String]
 
+  val extUnpacker: Unpacker[JsValue] = { unpacker =>
+    val header = unpacker.unpackExtTypeHeader
+    val data = unpacker.readPayload(header.getLength)
+    val result = Json.obj(
+      ("type", JsNumber(header.getType)),
+      ("data", JsString(Base64.getEncoder.encodeToString(data)))
+    )
+    \/-(result)
+  }
+
   val default: PlayUnpackOptions = PlayUnpackOptions(
-    _ => -\/(Err(new Exception("does not support extended type"))),
+    extUnpacker,
     binaryToNumberArrayUnpacker,
     \/-(JsNull),
     \/-(JsNull),
