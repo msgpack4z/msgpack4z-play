@@ -1,5 +1,7 @@
 package msgpack4z
 
+import java.util.Base64
+
 import msgpack4z.PlayUnpackOptions.NonStringKeyHandler
 import play.api.libs.json._
 import scalaz.{\/-, -\/}
@@ -19,6 +21,14 @@ object PlayUnpackOptions {
   }
 
   val binaryToNumberArrayUnpacker: Unpacker[JsValue] = { unpacker =>
+    CodecInstances.binary.binaryCodec.unpack(unpacker).map(binaryToNumberArray)
+  }
+
+  val binaryToBase64JsString: Binary => JsValue = { bytes =>
+    JsString(Base64.getEncoder.encodeToString(bytes.value))
+  }
+
+  val binaryToBase64JsStringUnpacker: Unpacker[JsValue] = { unpacker =>
     CodecInstances.binary.binaryCodec.unpack(unpacker).map(binaryToNumberArray)
   }
 
