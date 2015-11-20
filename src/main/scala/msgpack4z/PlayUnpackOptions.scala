@@ -5,7 +5,7 @@ import play.api.libs.json._
 import scalaz.{\/-, -\/}
 
 final case class PlayUnpackOptions(
-  extended: Unpacker[JsValue],
+  extension: Unpacker[JsValue],
   binary: Unpacker[JsValue],
   positiveInf: UnpackResult[JsValue],
   negativeInf: UnpackResult[JsValue],
@@ -14,8 +14,11 @@ final case class PlayUnpackOptions(
 )
 
 object PlayUnpackOptions {
+  private[this] def bytes2NumberArray(bytes: Array[Byte]): JsValue =
+    JsArray(bytes.map(JsNumber(_)))
+
   val binaryToNumberArray: Binary => JsValue = { bytes =>
-    JsArray(bytes.value.map(JsNumber(_)))
+    bytes2NumberArray(bytes.value)
   }
 
   val binaryToNumberArrayUnpacker: Unpacker[JsValue] = { unpacker =>
@@ -24,8 +27,18 @@ object PlayUnpackOptions {
 
   type NonStringKeyHandler = (MsgType, MsgUnpacker) => Option[String]
 
+  val extUnpacker: Unpacker[JsValue] = { unpacker =>
+    val header = unpacker.unpackExtTypeHeader
+    val data = unpacker.readPayload(header.getLength)
+    val result = Json.obj(
+      ("type", JsNumber(header.getType)),
+      ("data", bytes2NumberArray(data))
+    )
+    \/-(result)
+  }
+
   val default: PlayUnpackOptions = PlayUnpackOptions(
-    _ => -\/(Err(new Exception("does not support extended type"))),
+    extUnpacker,
     binaryToNumberArrayUnpacker,
     \/-(JsNull),
     \/-(JsNull),
