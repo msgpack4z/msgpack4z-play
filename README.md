@@ -19,9 +19,9 @@ libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-play" % "0.1.3"
 ### snapshot version
 
 ```scala
-libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-play" % "0.1.3-SNAPSHOT"
+libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-play" % "0.1.4-SNAPSHOT"
 
 resolvers += Opts.resolver.sonatypeSnapshots
 ```
 
-- [sxr](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/github/xuwei-k/msgpack4z-play_2.11/0.1.3-SNAPSHOT/msgpack4z-play_2.11-0.1.3-SNAPSHOT-sxr.jar/!/index.html)
+- [sxr](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/github/xuwei-k/msgpack4z-play_2.11/0.1.4-SNAPSHOT/msgpack4z-play_2.11-0.1.4-SNAPSHOT-sxr.jar/!/index.html)
