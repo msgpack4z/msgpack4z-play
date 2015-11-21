@@ -11,10 +11,10 @@
 ### latest stable version
 
 ```scala
-libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-play" % "0.1.2"
+libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-play" % "0.1.3"
 ```
 
-- [sxr](https://oss.sonatype.org/service/local/repositories/releases/archive/com/github/xuwei-k/msgpack4z-play_2.11/0.1.2/msgpack4z-play_2.11-0.1.2-sxr.jar/!/index.html)
+- [sxr](https://oss.sonatype.org/service/local/repositories/releases/archive/com/github/xuwei-k/msgpack4z-play_2.11/0.1.3/msgpack4z-play_2.11-0.1.3-sxr.jar/!/index.html)
 
 ### snapshot version
 
