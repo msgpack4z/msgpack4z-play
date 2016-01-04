@@ -12,7 +12,7 @@ object build extends Build {
     scalapropsSettings
   ).settings(
     name := msgpack4zPlayName,
-    scalapropsVersion := "0.2.0",
+    scalapropsVersion := "0.2.1",
     libraryDependencies ++= (
       ("com.typesafe.play" %% "play-json" % "2.4.4") ::
       ("com.github.xuwei-k" %% "msgpack4z-core" % "0.3.1") ::
