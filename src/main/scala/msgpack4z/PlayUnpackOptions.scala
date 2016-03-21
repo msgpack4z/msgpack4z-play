@@ -1,11 +1,9 @@
 package msgpack4z
 
 import java.util.Base64
-
 import msgpack4z.PlayUnpackOptions.NonStringKeyHandler
 import play.api.libs.json._
-import scalaz.{\/-, -\/}
-import java.util.Base64
+import scalaz.\/-
 
 final case class PlayUnpackOptions(
   extension: Unpacker[JsValue],
