@@ -17,4 +17,4 @@ libraryDependencies ++= (
   Nil
 )
 
-Sxr.subProjectSxr(Compile, "classes.sxr")
+Sxr.settings

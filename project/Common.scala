@@ -32,10 +32,6 @@ object Common {
     commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
     releaseTagName := tagName.value,
     releaseProcess := Seq[ReleaseStep](
-      ReleaseStep{ state =>
-        assert(Sxr.disableSxr == false)
-        state
-      },
       checkSnapshotDependencies,
       inquireVersions,
       runClean,
