@@ -8,25 +8,25 @@
 - <https://github.com/msgpack/msgpack/blob/master/spec.md>
 
 
-### latest stable version (play 2.5.x)
+### latest stable version (play-json 2.6.x)
 
 ```scala
-libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-play" % "0.4.1"
+libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-play" % "0.5.0-M1"
 ```
 
-- [sxr](https://oss.sonatype.org/service/local/repositories/releases/archive/com/github/xuwei-k/msgpack4z-play_2.11/0.4.1/msgpack4z-play_2.11-0.4.1-sxr.jar/!/index.html)
+- [sxr](https://oss.sonatype.org/service/local/repositories/releases/archive/com/github/xuwei-k/msgpack4z-play_2.11/0.5.0-M1/msgpack4z-play_2.11-0.5.0-M1-sxr.jar/!/index.html)
 
-### snapshot version (play 2.5.x)
+### snapshot version (play-json 2.6.x)
 
 ```scala
-libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-play" % "0.4.2-SNAPSHOT"
+libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-play" % "0.5.0-SNAPSHOT"
 
 resolvers += Opts.resolver.sonatypeSnapshots
 ```
 
-- [sxr](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/github/xuwei-k/msgpack4z-play_2.11/0.4.2-SNAPSHOT/msgpack4z-play_2.11-0.4.2-SNAPSHOT-sxr.jar/!/index.html)
+- [sxr](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/github/xuwei-k/msgpack4z-play_2.11/0.5.0-SNAPSHOT/msgpack4z-play_2.11-0.5.0-SNAPSHOT-sxr.jar/!/index.html)
 
 
-### play 2.4.x
+### play-json 2.5.x
 
-- <https://github.com/msgpack4z/msgpack4z-play/tree/play2.4>
+- <https://github.com/msgpack4z/msgpack4z-play/tree/play2.5>

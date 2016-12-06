@@ -14,7 +14,7 @@ abstract class SpecBase extends Scalaprops {
   private val jsValuePrimitivesArb: Gen[JsValue] =
     Gen.oneOf(
       Gen.value(JsNull),
-      Gen[Boolean].map(JsBoolean),
+      Gen[Boolean].map(JsBoolean(_)),
       bigDecimalGen.map(JsNumber),
       Gen[String].map(JsString)
     )

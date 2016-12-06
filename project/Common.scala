@@ -7,6 +7,8 @@ import com.typesafe.sbt.pgp.PgpKeys
 
 object Common {
 
+  val Scala212 = "2.12.1"
+
   private[this] val tagName = Def.setting{
     s"v${if (releaseUseGlobalVersion.value) (version in ThisBuild).value else version.value}"
   }
@@ -30,6 +32,7 @@ object Common {
     resolvers += Opts.resolver.sonatypeReleases,
     fullResolvers ~= {_.filterNot(_.name == "jcenter")},
     commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
+    releaseCrossBuild := true,
     releaseTagName := tagName.value,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
@@ -66,8 +69,8 @@ object Common {
       "-Yno-adapted-args" ::
       Nil
     ) ::: unusedWarnings,
-    scalaVersion := "2.11.8",
-    crossScalaVersions := scalaVersion.value :: Nil,
+    scalaVersion := Scala212,
+    crossScalaVersions := Scala212 :: "2.11.8" :: Nil,
     scalacOptions in (Compile, doc) ++= {
       val tag = tagOrHash.value
       Seq(
