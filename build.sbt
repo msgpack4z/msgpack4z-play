@@ -6,7 +6,7 @@ scalapropsSettings
 
 name := msgpack4zPlayName
 
-scalapropsVersion := "0.3.4"
+scalapropsVersion := "0.3.6"
 
 libraryDependencies ++= (
   ("com.typesafe.play" %% "play-json" % "2.6.0-M1") ::
