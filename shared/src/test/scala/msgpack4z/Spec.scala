@@ -28,7 +28,7 @@ abstract class SpecBase extends Scalaprops {
     ).map(pairs => JsObject(pairs.toMap.toSeq))
 
   private val jsArrayArb1: Gen[JsArray] =
-    Gen.listOfN(10, jsValuePrimitivesArb).map(JsArray)
+    Gen.listOfN(10, jsValuePrimitivesArb).map(JsArray(_))
 
   implicit val jsValueArb: Gen[JsValue] =
     Gen.oneOf(
@@ -44,7 +44,7 @@ abstract class SpecBase extends Scalaprops {
     ).map(pairs => JsObject(pairs.toMap.toSeq))
 
   implicit val jsArrayArb: Gen[JsArray] =
-    Gen.listOfN(10, jsValueArb).map(JsArray)
+    Gen.listOfN(10, jsValueArb).map(JsArray(_))
 
   protected[this] def packer(): MsgPacker
   protected[this] def unpacker(bytes: Array[Byte]): MsgUnpacker
@@ -71,16 +71,6 @@ abstract class SpecBase extends Scalaprops {
       checkRoundTripBytes(json)
     }
   }
-}
-
-object Java06Spec extends SpecBase{
-  override protected[this] def packer() = Msgpack06.defaultPacker()
-  override protected[this] def unpacker(bytes: Array[Byte]) = Msgpack06.defaultUnpacker(bytes)
-}
-
-object JavaSpec extends SpecBase {
-  override protected[this] def packer() = new MsgpackJavaPacker()
-  override protected[this] def unpacker(bytes: Array[Byte]) = MsgpackJavaUnpacker.defaultUnpacker(bytes)
 }
 
 object NativeSpec extends SpecBase{

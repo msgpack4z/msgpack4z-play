@@ -12,7 +12,7 @@ object Common {
     s"v${if (releaseUseGlobalVersion.value) (version in ThisBuild).value else version.value}"
   }
 
-  private[this] val tagOrHash = Def.setting{
+  val tagOrHash = Def.setting{
     if(isSnapshot.value) gitHash() else tagName.value
   }
 
@@ -41,7 +41,13 @@ object Common {
       commitReleaseVersion,
       UpdateReadme.updateReadmeProcess,
       tagRelease,
-      ReleaseStep(state => Project.extract(state).runTask(PgpKeys.publishSigned, state)._1),
+      ReleaseStep(
+        action = { state =>
+          val extracted = Project extract state
+          extracted.runAggregated(PgpKeys.publishSigned in Global in extracted.get(thisProjectRef), state)
+        },
+        enableCrossBuild = true
+      ),
       setNextVersion,
       commitNextVersion,
       releaseStepCommand("sonatypeReleaseAll"),
