@@ -18,8 +18,11 @@ object UpdateReadme {
     val newReadme = Predef.augmentString(IO.read(readmeFile)).lines.map{ line =>
       val matchReleaseOrSnapshot = line.contains("SNAPSHOT") == v.contains("SNAPSHOT")
       def n = modules(modules.indexWhere(line.contains))
-      if(line.startsWith("libraryDependencies") && matchReleaseOrSnapshot){
+      val libraryDependenciesLine = line.startsWith("libraryDependencies") && matchReleaseOrSnapshot
+      if(libraryDependenciesLine && line.contains(" %% ")){
         s"""libraryDependencies += "${org}" %% "$n" % "$v""""
+      }else if(libraryDependenciesLine && line.contains(" %%% ")){
+        s"""libraryDependencies += "${org}" %%% "$n" % "$v""""
       }else if(line.contains(sonatypeURL) && matchReleaseOrSnapshot){
         val sxrIndexHtml = "-sxr.jar/!/index.html"
         val baseURL = s"${sonatypeURL}${snapshotOrRelease}/archive/${org.replace('.', '/')}/${n}_${scalaV}/${v}/${n}_${scalaV}-${v}"
