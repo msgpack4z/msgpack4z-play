@@ -12,16 +12,16 @@
 ### latest stable version (play-json 2.6.x)
 
 ```scala
-libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-play" % "0.5.0-M2"
+libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-play" % "0.5.0-M3"
 ```
 
 for scala-js
 
 ```scala
-libraryDependencies += "com.github.xuwei-k" %%% "msgpack4z-play" % "0.5.0-M2"
+libraryDependencies += "com.github.xuwei-k" %%% "msgpack4z-play" % "0.5.0-M3"
 ```
 
-- [sxr](https://oss.sonatype.org/service/local/repositories/releases/archive/com/github/xuwei-k/msgpack4z-play_2.11/0.5.0-M2/msgpack4z-play_2.11-0.5.0-M2-sxr.jar/!/index.html)
+- [sxr](https://oss.sonatype.org/service/local/repositories/releases/archive/com/github/xuwei-k/msgpack4z-play_2.11/0.5.0-M3/msgpack4z-play_2.11-0.5.0-M3-sxr.jar/!/index.html)
 
 ### snapshot version (play-json 2.6.x)
 
