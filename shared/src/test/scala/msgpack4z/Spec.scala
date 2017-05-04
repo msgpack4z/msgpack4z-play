@@ -49,7 +49,7 @@ abstract class SpecBase extends Scalaprops {
   protected[this] def packer(): MsgPacker
   protected[this] def unpacker(bytes: Array[Byte]): MsgUnpacker
 
-  private def checkRoundTripBytes[A](a: A)(implicit A: MsgpackCodec[A], G: Gen[A], E: Equal[A]): Boolean =
+  private def checkRoundTripBytes[A](a: A)(implicit A: MsgpackCodec[A], E: Equal[A]): Boolean =
     A.roundtripz(a, packer(), unpacker _) match {
       case None =>
         true
