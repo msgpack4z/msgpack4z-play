@@ -6,9 +6,9 @@ val msgpack4zPlay = crossProject.in(file(".")).settings(
   name := msgpack4zPlayName,
   libraryDependencies ++= (
     ("com.typesafe.play" %%% "play-json" % "2.6.0-M7") ::
-    ("com.github.xuwei-k" %%% "msgpack4z-core" % "0.3.5") ::
-    ("com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.2" % "test") ::
-    ("com.github.scalaprops" %%% "scalaprops" % "0.4.1" % "test") ::
+    ("com.github.xuwei-k" %%% "msgpack4z-core" % "0.3.7") ::
+    ("com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.3" % "test") ::
+    ("com.github.scalaprops" %%% "scalaprops" % "0.4.2" % "test") ::
     Nil
   )
 ).jsSettings(
