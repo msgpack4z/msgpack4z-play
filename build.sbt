@@ -17,8 +17,6 @@ val msgpack4zPlay = crossProject.in(file(".")).settings(
     val g = "https://raw.githubusercontent.com/msgpack4z/msgpack4z-play/" + Common.tagOrHash.value
     s"-P:scalajs:mapSourceURI:$a->$g/"
   },
-  // https://github.com/marklister/base64/pull/14
-  libraryDependencies += "com.github.marklister" %%% "base64" % "0.2.3" exclude("com.lihaoyi", s"utest_sjs0.6_${scalaBinaryVersion.value}"),
   scalaJSSemantics ~= { _.withStrictFloats(true) },
   scalaJSStage in Test := FastOptStage
 ).jvmSettings(
