@@ -72,7 +72,7 @@ object Common {
       Nil
     ) ::: unusedWarnings,
     scalaVersion := Scala212,
-    crossScalaVersions := Scala212 :: "2.11.11" :: Nil,
+    crossScalaVersions := Scala212 :: "2.11.11" :: "2.13.0-M1" :: Nil,
     scalacOptions in (Compile, doc) ++= {
       val tag = tagOrHash.value
       Seq(
