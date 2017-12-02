@@ -6,7 +6,7 @@ import com.typesafe.sbt.pgp.PgpKeys
 
 object Common {
 
-  val Scala212 = "2.12.2"
+  val Scala212 = "2.12.4"
 
   private[this] val tagName = Def.setting{
     s"v${if (releaseUseGlobalVersion.value) (version in ThisBuild).value else version.value}"
