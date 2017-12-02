@@ -35,7 +35,7 @@ val msgpack4zPlayJS = msgpack4zPlay.js
 val root = Project("root", file(".")).settings(
   Common.settings,
   commands += Command.command("testSequential"){
-    Seq(msgpack4zPlayJVM, msgpack4zPlayJS).map(_.id + "/test") ::: _
+    List(msgpack4zPlayJVM, msgpack4zPlayJS).map(_.id + "/test") ::: _
   },
   PgpKeys.publishLocalSigned := {},
   PgpKeys.publishSigned := {},

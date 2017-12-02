@@ -16,7 +16,7 @@ object Common {
     if(isSnapshot.value) gitHash() else tagName.value
   }
 
-  private[this] def gitHash(): String = sys.process.Process("git rev-parse HEAD").lines_!.head
+  private[this] def gitHash(): String = sys.process.Process("git rev-parse HEAD").lineStream_!.head
 
   private[this] val unusedWarnings = (
     "-Ywarn-unused" ::
@@ -27,6 +27,12 @@ object Common {
   val settings = Seq(
     ReleasePlugin.extraReleaseCommands
   ).flatten ++ Seq(
+    publishTo := Some(
+      if (isSnapshot.value)
+        Opts.resolver.sonatypeSnapshots
+      else
+        Opts.resolver.sonatypeStaging
+    ),
     resolvers += Opts.resolver.sonatypeReleases,
     fullResolvers ~= {_.filterNot(_.name == "jcenter")},
     commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
