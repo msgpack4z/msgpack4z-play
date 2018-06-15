@@ -1,6 +1,7 @@
 import build._
+import sbtcrossproject.crossProject
 
-val msgpack4zPlay = crossProject.in(file(".")).settings(
+val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform).in(file(".")).settings(
   Common.settings,
   scalapropsCoreSettings,
   name := msgpack4zPlayName,
