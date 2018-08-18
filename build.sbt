@@ -1,12 +1,22 @@
 import build._
 import sbtcrossproject.crossProject
 
+val playJsonVersion = settingKey[String]("")
+
 val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform).in(file(".")).settings(
   Common.settings,
   scalapropsCoreSettings,
   name := msgpack4zPlayName,
+  playJsonVersion := {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, v)) if v >= 13 =>
+        "2.7.0-M1"
+      case _ =>
+        "2.6.9"
+    }
+  },
   libraryDependencies ++= (
-    ("com.typesafe.play" %%% "play-json" % "2.6.9") ::
+    ("com.typesafe.play" %%% "play-json" % playJsonVersion.value) ::
     ("com.github.xuwei-k" %%% "msgpack4z-core" % "0.3.9") ::
     ("com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.5" % "test") ::
     ("com.github.scalaprops" %%% "scalaprops" % "0.5.5" % "test") ::

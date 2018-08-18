@@ -74,11 +74,10 @@ object Common {
       "-language:existentials" ::
       "-language:higherKinds" ::
       "-language:implicitConversions" ::
-      "-Yno-adapted-args" ::
       Nil
     ) ::: unusedWarnings,
     scalaVersion := Scala212,
-    crossScalaVersions := Scala212 :: "2.11.12" :: "2.13.0-M3" :: Nil,
+    crossScalaVersions := Scala212 :: "2.11.12" :: "2.13.0-M4" :: Nil,
     scalacOptions in (Compile, doc) ++= {
       val tag = tagOrHash.value
       Seq(
