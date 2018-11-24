@@ -42,13 +42,13 @@ object Play2Msgpack {
     json match {
       case JsNumber(v) =>
         if (v.isValidLong) {
-          packer.packLong(v.longValue())
+          packer.packLong(v.longValue)
         } else {
-          val f = v.floatValue()
+          val f = v.floatValue
           if (f == v) {
             packer.packFloat(f)
           } else {
-            packer.packDouble(v.doubleValue())
+            packer.packDouble(v.doubleValue)
           }
         }
       case JsString(v) =>
