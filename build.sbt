@@ -10,9 +10,9 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform).in(file(".")).settings
   playJsonVersion := {
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, v)) if v >= 13 =>
-        "2.7.0-RC1"
+        "2.7.0-RC2"
       case _ =>
-        "2.6.9"
+        "2.6.11"
     }
   },
   libraryDependencies ++= (
