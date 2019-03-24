@@ -18,10 +18,4 @@ jdk:
 script:
   - git config core.whitespace tab-in-indent,trailing-space,space-before-tab,cr-at-eol
   - git show --oneline --check
-  - if [[ "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" && "${TRAVIS_REPO_SLUG}" == "msgpack4z/msgpack4z-play" ]]; then export PUBLISH_SONATYPE=true; fi
-  - sbt "++ ${TRAVIS_SCALA_VERSION}!" testSequential $(if [[ "${PUBLISH_SONATYPE}" == "true" ]]; then echo "publish" ; fi)
-
-env:
-  global:
-  - secure: "hietkqrgY4uWNhKL1WOhcuLZsaCZ6MhtuWNz+xY9AV7h2GYomYPcRWt8NF6Xf/N5gC1YacuRRe5CfKjeRXp6epN/Vdmb5baHSB4tiFbAB8ZgMkJJwWnAyzPFXZKRtLcRsWmAnxVLzIQCnAS0v/RNrwcS0J8dUvDPDgos5DinB6+g3NwsENtqXihRoHHqOU55leOgtuTLB8VeuGNulVDLAYyxgxxtS1QT36doFCq+qFELPIfaccIN2bwa6Ayr7K/DUoGymZwa1yrZ25k/ZimEaSD6odB+CN/RAuBEDP9gaoCAk0i+N8haeFU5fToHnIPtxUU7QdqQ6saO+iKQYQScg83BkDygo5q3I5uN7Mq5g+twNym0Taj9xxOTXGeC3QK7af4d2YMfbE2LfHpX0s+6x7vICJj50Bthuyyd1GVeNZ2WI5lqWKws2diWrjk64DAdd8CwlI1yfJJJDkbYbo9iAdVKoXjLZS5+RC9WKM+dADb8DjCPLbifCuwOqVwBZojNyJc4MXbFtPUN6hA0QiJdAfztt/nhe4J60NyozRgTVC1WJ4ZYIpdpuK9SqCADgwaRSsCCO6PQLiifWIJFRIeGUt04ylrRnSNCvlROv0Y1UtX9untTV7oMS13iQzqK+887WIZbdQytDwGgO1fMU77pR2fn3ROlc5C+p3nZxraXpB4="
-  - secure: "Ef5Ud/c36lr0jvdlZ0CRaPY9kuE9RpcxbeTuTp0Q4LIUcVU/QJ/EST7y0tX/wZ1AfZ0aXSk2+XIl88+tp9rDlOCeiB9HaYwTzhB885AknL+b/DCBOMIUiwCTaJX2j0Kf3yqStTQQOdLhMcNlq7/WXVuy7P8psNw5XPWJHe0k35Y1pO3BKYQYgrDn44GAuhD9IyZcCujtCj+OYPEgXwNxb983emP7NPWJ2c1gVhPzsHDVojO5sX+1Hs2se6IgezjyFDxe2eFMV/awSdHuqTQfKSYGA03hlbtbFwDYrNVAIYu1WQCZ87US7TCvMzB8mrPLgM49EhPIOQObYlDPQL5C85zccSZvVyMpK7nzJ0WitGpUudM/yBLpnpiSnJW7qMC0n3qrwk9J7GW5raBX1uubIrvSVvLRHnF+fa7cXAtia3Z/aTVlLX9rZHtibfH3IXUArigQK2Zr4awrg5MOrvym8+PMysVgUCX/ds8lPWnpYtQrDgJ0cikINjTku4ckH/5etpcpBJalQUEBLjaJHX8p5BYNzjaIZIAHF7Tl8ivVkKs9llhwmJhO2DA/YdiitUjQUgh4B/I1Dv715QJIF5gb+cyA2QdgskhZVUbRnaKxuZJcmYdzFPyVQblXd0Vn3VwNgzbdNEp/Xl1pxjvOvxMqi3ZAimF4GJe0tTTbu8PrWMw="
+  - sbt "++ ${TRAVIS_SCALA_VERSION}!" testSequential
