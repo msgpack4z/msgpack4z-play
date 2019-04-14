@@ -77,7 +77,7 @@ object Common {
       Nil
     ) ::: unusedWarnings,
     scalaVersion := Scala212,
-    crossScalaVersions := Scala212 :: "2.11.12" :: "2.13.0-M5" :: Nil,
+    crossScalaVersions := Scala212 :: "2.11.12" :: "2.13.0-RC1" :: Nil,
     scalacOptions in (Compile, doc) ++= {
       val tag = tagOrHash.value
       Seq(
