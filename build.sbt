@@ -7,14 +7,7 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform).in(file(".")).settings
   Common.settings,
   scalapropsCoreSettings,
   name := msgpack4zPlayName,
-  playJsonVersion := {
-    CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, v)) if v <= 12 =>
-        "2.7.3"
-      case _ =>
-        "2.8.0-M1"
-    }
-  },
+  playJsonVersion := "2.7.4",
   libraryDependencies ++= (
     ("com.typesafe.play" %%% "play-json" % playJsonVersion.value) ::
     ("com.github.xuwei-k" %%% "msgpack4z-core" % "0.3.10") ::
