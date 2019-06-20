@@ -25,7 +25,7 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform).in(file(".")).settings
   scalaJSStage in Test := FastOptStage
 ).jvmSettings(
   libraryDependencies ++= (
-    ("com.github.xuwei-k" % "msgpack4z-java" % "0.3.5" % "test") ::
+    ("com.github.xuwei-k" % "msgpack4z-java" % "0.3.6" % "test") ::
     ("com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test") ::
     Nil
   )
