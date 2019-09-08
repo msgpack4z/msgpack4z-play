@@ -32,7 +32,6 @@ object Common {
       else
         Opts.resolver.sonatypeStaging
     ),
-    resolvers += Opts.resolver.sonatypeReleases,
     fullResolvers ~= {_.filterNot(_.name == "jcenter")},
     commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
     releaseCrossBuild := true,
