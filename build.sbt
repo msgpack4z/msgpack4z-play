@@ -1,6 +1,8 @@
 import build._
 import sbtcrossproject.crossProject
 
+Global / onChangedBuildSource := ReloadOnSourceChanges
+
 val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform).in(file(".")).settings(
   Common.settings,
   scalapropsCoreSettings,
