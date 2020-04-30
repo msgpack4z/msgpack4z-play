@@ -9,7 +9,7 @@
 - <https://github.com/msgpack/msgpack/blob/master/spec.md>
 
 
-### latest stable version (play-json 2.7.x)
+### latest stable version (play-json 2.8.x)
 
 ```scala
 libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-play" % "0.7.0"
@@ -22,8 +22,3 @@ libraryDependencies += "com.github.xuwei-k" %%% "msgpack4z-play" % "0.7.0"
 ```
 
 - [sxr](https://oss.sonatype.org/service/local/repositories/releases/archive/com/github/xuwei-k/msgpack4z-play_2.11/0.7.0/msgpack4z-play_2.11-0.7.0-sxr.jar/!/index.html)
-
-
-### play-json 2.6.x
-
-- <https://github.com/msgpack4z/msgpack4z-play/tree/play2.6>
