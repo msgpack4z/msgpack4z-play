@@ -9,7 +9,7 @@
 - <https://github.com/msgpack/msgpack/blob/master/spec.md>
 
 
-### latest stable version (play-json 2.8.x)
+### latest stable version (play-json 2.9.x)
 
 ```scala
 libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-play" % "0.9.0"
