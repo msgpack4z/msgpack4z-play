@@ -1,6 +1,6 @@
 # msgpack4z-play
 
-[![Build Status](https://secure.travis-ci.com/msgpack4z/msgpack4z-play.png?branch=master)](http://travis-ci.com/msgpack4z/msgpack4z-play)
+[![Build Status](https://travis-ci.com/msgpack4z/msgpack4z-play.svg?branch=master)](http://travis-ci.com/msgpack4z/msgpack4z-play)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.xuwei-k/msgpack4z-play_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.xuwei-k/msgpack4z-play_2.12)
 [![scaladoc](https://javadoc-badge.appspot.com/com.github.xuwei-k/msgpack4z-play_2.12.svg?label=scaladoc)](https://javadoc-badge.appspot.com/com.github.xuwei-k/msgpack4z-play_2.12/msgpack4z/index.html?javadocio=true)
 [![Scala.js](https://www.scala-js.org/assets/badges/scalajs-0.6.14.svg)](https://www.scala-js.org)
