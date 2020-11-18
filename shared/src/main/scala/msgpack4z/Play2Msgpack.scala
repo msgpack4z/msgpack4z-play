@@ -171,7 +171,7 @@ object Play2Msgpack {
   }
 
 
-  private[msgpack4z] def msgpack2json0(unpacker: MsgUnpacker, result: Result[JsValue], unpackOptions: PlayUnpackOptions): Boolean = {
+  private def msgpack2json0(unpacker: MsgUnpacker, result: Result[JsValue], unpackOptions: PlayUnpackOptions): Boolean = {
     unpacker.nextType match {
       case MsgType.NIL =>
         unpacker.unpackNil()

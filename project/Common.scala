@@ -65,20 +65,32 @@ object Common {
       "-target:jvm-1.8" ::
       "-deprecation" ::
       "-unchecked" ::
-      "-Xlint" ::
       "-language:existentials" ::
       "-language:higherKinds" ::
       "-language:implicitConversions" ::
       Nil
-    ) ::: unusedWarnings,
+    ),
+    scalacOptions ++= {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, _)) =>
+          Seq("-Xlint") ++ unusedWarnings
+        case _ =>
+          Nil
+      }
+    },
     scalaVersion := Scala212,
     crossScalaVersions := Scala212 :: "2.13.3" :: Nil,
     scalacOptions in (Compile, doc) ++= {
       val tag = tagOrHash.value
-      Seq(
-        "-sourcepath", (baseDirectory in LocalRootProject).value.getAbsolutePath,
-        "-doc-source-url", s"https://github.com/msgpack4z/msgpack4z-play/tree/${tag}€{FILE_PATH}.scala"
-      )
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, _)) =>
+          Seq(
+            "-sourcepath", (baseDirectory in LocalRootProject).value.getAbsolutePath,
+            "-doc-source-url", s"https://github.com/msgpack4z/msgpack4z-play/tree/${tag}€{FILE_PATH}.scala"
+          )
+        case _ =>
+          Nil
+      }
     },
     pomExtra :=
       <developers>

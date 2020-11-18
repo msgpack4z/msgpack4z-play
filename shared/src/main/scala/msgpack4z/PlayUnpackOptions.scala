@@ -16,7 +16,7 @@ final case class PlayUnpackOptions(
 
 object PlayUnpackOptions {
   val binaryToNumberArray: Binary => JsValue = { bytes =>
-    JsArray(bytes.value.map(JsNumber(_)))
+    JsArray(bytes.value.map(x => JsNumber(x: Int)))
   }
 
   val binaryToNumberArrayUnpacker: Unpacker[JsValue] = { unpacker =>
@@ -37,7 +37,7 @@ object PlayUnpackOptions {
     val header = unpacker.unpackExtTypeHeader
     val data = unpacker.readPayload(header.getLength)
     val result = Json.obj(
-      ("type", JsNumber(header.getType)),
+      ("type", JsNumber(header.getType: Int)),
       ("data", JsString(Base64.getEncoder.encodeToString(data)))
     )
     \/-(result)

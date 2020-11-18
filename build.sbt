@@ -15,10 +15,15 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform).in(file(".")).settings
     Nil
   )
 ).jsSettings(
-  scalacOptions += {
-    val a = (baseDirectory in LocalRootProject).value.toURI.toString
-    val g = "https://raw.githubusercontent.com/msgpack4z/msgpack4z-play/" + Common.tagOrHash.value
-    s"-P:scalajs:mapSourceURI:$a->$g/"
+  scalacOptions ++= {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, _)) =>
+        val a = (baseDirectory in LocalRootProject).value.toURI.toString
+        val g = "https://raw.githubusercontent.com/msgpack4z/msgpack4z-play/" + Common.tagOrHash.value
+        Seq(s"-P:scalajs:mapSourceURI:$a->$g/")
+      case _ =>
+        Nil
+    }
   },
   scalaJSLinkerConfig ~= { _.withSemantics(_.withStrictFloats(true)) },
   scalaJSStage in Test := FastOptStage

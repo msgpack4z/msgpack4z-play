@@ -6,7 +6,7 @@ import scalaz.{-\/, Equal, \/-}
 
 abstract class SpecBase extends Scalaprops {
 
-  private[this] implicit val stringGen = Gen.alphaNumString
+  private[this] implicit val stringGen: Gen[String] = Gen.alphaNumString
 
   private val bigDecimalGen: Gen[BigDecimal] =
     Gen[Long].map(BigDecimal(_))
@@ -62,12 +62,12 @@ abstract class SpecBase extends Scalaprops {
     }
 
   val test = {
-    implicit val codecInstance = Play2Msgpack.jsValueCodec(
+    implicit val codecInstance: MsgpackCodec[JsValue] = Play2Msgpack.jsValueCodec(
       PlayUnpackOptions.default
     )
-    implicit val equalInstance = Equal.equalA[JsValue]
+    implicit val equalInstance: Equal[JsValue] = Equal.equalA[JsValue]
 
-    Property.forAll { json: JsValue =>
+    Property.forAll { (json: JsValue) =>
       checkRoundTripBytes(json)
     }
   }
