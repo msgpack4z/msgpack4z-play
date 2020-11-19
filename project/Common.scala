@@ -79,7 +79,7 @@ object Common {
       }
     },
     scalaVersion := Scala212,
-    crossScalaVersions := Scala212 :: "2.13.3" :: "3.0.0-M1" :: Nil,
+    crossScalaVersions := Scala212 :: "2.13.4" :: "3.0.0-M1" :: Nil,
     scalacOptions in (Compile, doc) ++= {
       val tag = tagOrHash.value
       CrossVersion.partialVersion(scalaVersion.value) match {
