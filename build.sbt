@@ -10,7 +10,7 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform).in(file(".")).settings
   libraryDependencies ++= (
     ("com.typesafe.play" %%% "play-json" % "2.9.2") ::
     ("com.github.xuwei-k" %%% "msgpack4z-core" % "0.5.0") ::
-    ("com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.6" % "test") ::
+    ("com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.7" % "test") ::
     ("com.github.scalaprops" %%% "scalaprops" % "0.8.1" % "test") ::
     Nil
   ).map(_ withDottyCompat scalaVersion.value)
