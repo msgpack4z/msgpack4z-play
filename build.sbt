@@ -18,7 +18,7 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform).in(file(".")).settings
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, _)) =>
-        val a = (baseDirectory in LocalRootProject).value.toURI.toString
+        val a = (LocalRootProject / baseDirectory).value.toURI.toString
         val g = "https://raw.githubusercontent.com/msgpack4z/msgpack4z-play/" + Common.tagOrHash.value
         Seq(s"-P:scalajs:mapSourceURI:$a->$g/")
       case _ =>
@@ -26,7 +26,7 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform).in(file(".")).settings
     }
   },
   scalaJSLinkerConfig ~= { _.withSemantics(_.withStrictFloats(true)) },
-  scalaJSStage in Test := FastOptStage
+  Test / scalaJSStage := FastOptStage
 ).jvmSettings(
   libraryDependencies ++= (
     ("com.github.xuwei-k" % "msgpack4z-java" % "0.3.6" % "test") ::
@@ -49,7 +49,7 @@ val root = Project("root", file(".")).settings(
   PgpKeys.publishSigned := {},
   publishLocal := {},
   publish := {},
-  publishArtifact in Compile := false
+  Compile / publishArtifact := false
 ).aggregate(
   msgpack4zPlayJS, msgpack4zPlayJVM
 )
