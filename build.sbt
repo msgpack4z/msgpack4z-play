@@ -13,7 +13,7 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform).in(file(".")).settings
     ("com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.7" % "test") ::
     ("com.github.scalaprops" %%% "scalaprops" % "0.8.2" % "test") ::
     Nil
-  ).map(_ withDottyCompat scalaVersion.value)
+  ).map(_ cross CrossVersion.for3Use2_13)
 ).jsSettings(
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
