@@ -60,7 +60,7 @@ object Play2Msgpack {
       case v @ JsArray(_) =>
         jsArray2msgpack(packer, v)
       case JsNull =>
-        packer.packNil
+        packer.packNil()
     }
   }
 
@@ -172,7 +172,7 @@ object Play2Msgpack {
 
 
   private def msgpack2json0(unpacker: MsgUnpacker, result: Result[JsValue], unpackOptions: PlayUnpackOptions): Boolean = {
-    unpacker.nextType match {
+    unpacker.nextType() match {
       case MsgType.NIL =>
         unpacker.unpackNil()
         result.value = JsNull

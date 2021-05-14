@@ -34,7 +34,7 @@ object PlayUnpackOptions {
   type NonStringKeyHandler = (MsgType, MsgUnpacker) => Option[String]
 
   val extUnpacker: Unpacker[JsValue] = { unpacker =>
-    val header = unpacker.unpackExtTypeHeader
+    val header = unpacker.unpackExtTypeHeader()
     val data = unpacker.readPayload(header.getLength)
     val result = Json.obj(
       ("type", JsNumber(header.getType: Int)),
