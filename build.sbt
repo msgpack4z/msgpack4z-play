@@ -33,8 +33,6 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform).in(file(".")).settings
     ("com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test") ::
     Nil
   )
-).jvmSettings(
-  Sxr.settings
 )
 
 val msgpack4zPlayJVM = msgpack4zPlay.jvm
