@@ -1,5 +1,4 @@
 import build._
-import sbtcrossproject.crossProject
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
