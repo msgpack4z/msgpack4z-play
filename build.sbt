@@ -6,8 +6,14 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform).in(file(".")).settings
   Common.settings,
   scalapropsCoreSettings,
   name := msgpack4zPlayName,
+  libraryDependencies += {
+    if (scalaBinaryVersion.value == "3") {
+      "com.typesafe.play" %%% "play-json" % "2.10.0-RC5"
+    } else {
+      "com.typesafe.play" %%% "play-json" % "2.9.2"
+    }
+  },
   libraryDependencies ++= (
-    ("com.typesafe.play" %%% "play-json" % "2.9.2" cross CrossVersion.for3Use2_13) ::
     ("com.github.xuwei-k" %%% "msgpack4z-core" % "0.6.0") ::
     ("com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.8" % "test") ::
     ("com.github.scalaprops" %%% "scalaprops" % "0.9.0" % "test") ::
