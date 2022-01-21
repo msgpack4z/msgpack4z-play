@@ -11,11 +11,11 @@
 ### latest stable version (play-json 2.9.x)
 
 ```scala
-libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-play" % "0.9.0"
+libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-play" % "0.10.0"
 ```
 
 for scala-js
 
 ```scala
-libraryDependencies += "com.github.xuwei-k" %%% "msgpack4z-play" % "0.9.0"
+libraryDependencies += "com.github.xuwei-k" %%% "msgpack4z-play" % "0.10.0"
 ```
