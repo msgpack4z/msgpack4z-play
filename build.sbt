@@ -20,7 +20,7 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform).in(file(".")).settings
     Nil
   )
 ).jsSettings(
-  scalacOptions ++= {
+  scalacOptions += {
     val a = (LocalRootProject / baseDirectory).value.toURI.toString
     val g = "https://raw.githubusercontent.com/msgpack4z/msgpack4z-play/" + Common.tagOrHash.value
     val key = {
