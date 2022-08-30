@@ -32,7 +32,6 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform).in(file(".")).settings
     }
     s"${key}:$a->$g/"
   },
-  scalaJSLinkerConfig ~= { _.withSemantics(_.withStrictFloats(true)) },
   Test / scalaJSStage := FastOptStage
 ).jvmSettings(
   libraryDependencies ++= (
