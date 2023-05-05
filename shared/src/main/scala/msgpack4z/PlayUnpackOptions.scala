@@ -49,8 +49,8 @@ object PlayUnpackOptions {
     \/-(JsNull),
     \/-(JsNull),
     \/-(JsNull),
-    {case (tpe, unpacker) =>
-      PartialFunction.condOpt(tpe){
+    { case (tpe, unpacker) =>
+      PartialFunction.condOpt(tpe) {
         case MsgType.NIL =>
           "null"
         case MsgType.BOOLEAN =>

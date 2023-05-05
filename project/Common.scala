@@ -9,26 +9,26 @@ object Common {
 
   val Scala212 = "2.12.17"
 
-  private[this] val tagName = Def.setting{
+  private[this] val tagName = Def.setting {
     s"v${if (releaseUseGlobalVersion.value) (ThisBuild / version).value else version.value}"
   }
 
-  val tagOrHash = Def.setting{
-    if(isSnapshot.value) gitHash() else tagName.value
+  val tagOrHash = Def.setting {
+    if (isSnapshot.value) gitHash() else tagName.value
   }
 
   private[this] def gitHash(): String = sys.process.Process("git rev-parse HEAD").lineStream_!.head
 
   private[this] val unusedWarnings = (
     "-Ywarn-unused" ::
-    Nil
+      Nil
   )
 
   val settings = Seq(
     ReleasePlugin.extraReleaseCommands
   ).flatten ++ Seq(
     publishTo := sonatypePublishToBundle.value,
-    fullResolvers ~= {_.filterNot(_.name == "jcenter")},
+    fullResolvers ~= { _.filterNot(_.name == "jcenter") },
     commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
     releaseCrossBuild := true,
     releaseTagName := tagName.value,
@@ -54,21 +54,22 @@ object Common {
       UpdateReadme.updateReadmeProcess,
       pushChanges
     ),
-    credentials ++= PartialFunction.condOpt(sys.env.get("SONATYPE_USER") -> sys.env.get("SONATYPE_PASS")){
-      case (Some(user), Some(pass)) =>
+    credentials ++= PartialFunction
+      .condOpt(sys.env.get("SONATYPE_USER") -> sys.env.get("SONATYPE_PASS")) { case (Some(user), Some(pass)) =>
         Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", user, pass)
-    }.toList,
+      }
+      .toList,
     organization := "com.github.xuwei-k",
     homepage := Some(url("https://github.com/msgpack4z")),
     licenses := Seq("MIT License" -> url("http://www.opensource.org/licenses/mit-license.php")),
     scalacOptions ++= (
       "-target:jvm-1.8" ::
-      "-deprecation" ::
-      "-unchecked" ::
-      "-language:existentials" ::
-      "-language:higherKinds" ::
-      "-language:implicitConversions" ::
-      Nil
+        "-deprecation" ::
+        "-unchecked" ::
+        "-language:existentials" ::
+        "-language:higherKinds" ::
+        "-language:implicitConversions" ::
+        Nil
     ),
     scalacOptions ++= {
       CrossVersion.partialVersion(scalaVersion.value) match {
@@ -85,8 +86,10 @@ object Common {
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2, _)) =>
           Seq(
-            "-sourcepath", (LocalRootProject / baseDirectory).value.getAbsolutePath,
-            "-doc-source-url", s"https://github.com/msgpack4z/msgpack4z-play/tree/${tag}€{FILE_PATH}.scala"
+            "-sourcepath",
+            (LocalRootProject / baseDirectory).value.getAbsolutePath,
+            "-doc-source-url",
+            s"https://github.com/msgpack4z/msgpack4z-play/tree/${tag}€{FILE_PATH}.scala"
           )
         case _ =>
           Nil
@@ -104,8 +107,7 @@ object Common {
         <url>git@github.com:msgpack4z/msgpack4z-play.git</url>
         <connection>scm:git:git@github.com:msgpack4z/msgpack4z-play.git</connection>
         <tag>{tagOrHash.value}</tag>
-      </scm>
-    ,
+      </scm>,
     description := "msgpack4z play-json binding",
     pomPostProcess := { node =>
       import scala.xml._
@@ -117,8 +119,6 @@ object Common {
       val stripTestScope = stripIf { n => n.label == "dependency" && (n \ "scope").text == "test" }
       new RuleTransformer(stripTestScope).transform(node)(0)
     }
-  ) ++ Seq(Compile, Test).flatMap(c =>
-    c / console / scalacOptions ~= {_.filterNot(unusedWarnings.toSet)}
-  )
+  ) ++ Seq(Compile, Test).flatMap(c => c / console / scalacOptions ~= { _.filterNot(unusedWarnings.toSet) })
 
 }

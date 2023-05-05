@@ -17,8 +17,8 @@ jobs:
         java-version: 8
         distribution: temurin
     - uses: coursier/cache-action@v6
-    - run: git config core.whitespace tab-in-indent,trailing-space,space-before-tab,cr-at-eol
-    - run: git show --oneline --check
     - run: sbt -v
+           scalafmtSbtCheck
+           "+ scalafmtCheckAll"
            "+ msgpack4zPlayJVM/test"
            "+ msgpack4zPlayJS/test"

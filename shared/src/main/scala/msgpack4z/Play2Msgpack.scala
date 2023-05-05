@@ -95,10 +95,11 @@ object Play2Msgpack {
   private[this] val JsFalse = JsBoolean(false)
 
   private[this] final case class Result[A](
-    var value: A, var error: UnpackError
+    var value: A,
+    var error: UnpackError
   )
   private[this] object Result {
-    def fromEither[A](e: UnpackError \/ A, result: Result[A]): Boolean = e match{
+    def fromEither[A](e: UnpackError \/ A, result: Result[A]): Boolean = e match {
       case \/-(r) =>
         result.value = r
         true
@@ -110,7 +111,11 @@ object Play2Msgpack {
     def empty[A >: Null <: JsValue]: Result[A] = Result[A](null, null)
   }
 
-  private[this] def msgpack2jsObj0(unpacker: MsgUnpacker, result: Result[JsObject], unpackOptions: PlayUnpackOptions): Boolean = {
+  private[this] def msgpack2jsObj0(
+    unpacker: MsgUnpacker,
+    result: Result[JsObject],
+    unpackOptions: PlayUnpackOptions
+  ): Boolean = {
     val size = unpacker.unpackMapHeader()
     val fields = new Array[(String, JsValue)](size)
     var i = 0
@@ -118,20 +123,20 @@ object Play2Msgpack {
     var success = true
 
     def process(key: String): Unit = {
-     if (msgpack2json0(unpacker, mapElem, unpackOptions)) {
-       fields(i) = (key, mapElem.value)
-       i += 1
-     } else {
-       result.error = mapElem.error
-       success = false
-     }
+      if (msgpack2json0(unpacker, mapElem, unpackOptions)) {
+        fields(i) = (key, mapElem.value)
+        i += 1
+      } else {
+        result.error = mapElem.error
+        success = false
+      }
     }
 
     while (i < size && success) {
       val tpe = unpacker.nextType()
-      if(tpe == MsgType.STRING) {
+      if (tpe == MsgType.STRING) {
         process(unpacker.unpackString())
-      }else{
+      } else {
         unpackOptions.nonStringKey(tpe, unpacker) match {
           case Some(key) =>
             process(key)
@@ -148,7 +153,11 @@ object Play2Msgpack {
     success
   }
 
-  private[this] def msgpack2jsArray0(unpacker: MsgUnpacker, result: Result[JsArray], unpackOptions: PlayUnpackOptions): Boolean = {
+  private[this] def msgpack2jsArray0(
+    unpacker: MsgUnpacker,
+    result: Result[JsArray],
+    unpackOptions: PlayUnpackOptions
+  ): Boolean = {
     val size = unpacker.unpackArrayHeader()
     val array = new Array[JsValue](size)
     var i = 0
@@ -170,8 +179,11 @@ object Play2Msgpack {
     success
   }
 
-
-  private def msgpack2json0(unpacker: MsgUnpacker, result: Result[JsValue], unpackOptions: PlayUnpackOptions): Boolean = {
+  private def msgpack2json0(
+    unpacker: MsgUnpacker,
+    result: Result[JsValue],
+    unpackOptions: PlayUnpackOptions
+  ): Boolean = {
     unpacker.nextType() match {
       case MsgType.NIL =>
         unpacker.unpackNil()
@@ -189,10 +201,10 @@ object Play2Msgpack {
         true
       case MsgType.FLOAT =>
         val f = unpacker.unpackDouble()
-        try{
+        try {
           result.value = JsNumber(BigDecimal.valueOf(f))
           true
-        }catch{
+        } catch {
           case _: NumberFormatException if f.isPosInfinity =>
             Result.fromEither(unpackOptions.positiveInf, result)
           case _: NumberFormatException if f.isNegInfinity =>
@@ -223,18 +235,20 @@ object Play2Msgpack {
   }
 }
 
+private final class CodecPlay2JsArray(unpackOptions: PlayUnpackOptions)
+    extends MsgpackCodecConstant[JsArray](
+      (packer, js) => Play2Msgpack.jsArray2msgpack(packer, js),
+      unpacker => Play2Msgpack.msgpack2jsArray(unpacker, unpackOptions)
+    )
 
-private final class CodecPlay2JsArray(unpackOptions: PlayUnpackOptions) extends MsgpackCodecConstant[JsArray](
-  (packer, js) => Play2Msgpack.jsArray2msgpack(packer, js),
-  unpacker => Play2Msgpack.msgpack2jsArray(unpacker, unpackOptions)
-)
+private final class CodecPlay2JsValue(unpackOptions: PlayUnpackOptions)
+    extends MsgpackCodecConstant[JsValue](
+      (packer, js) => Play2Msgpack.json2msgpack(packer, js),
+      unpacker => Play2Msgpack.msgpack2json(unpacker, unpackOptions)
+    )
 
-private final class CodecPlay2JsValue(unpackOptions: PlayUnpackOptions) extends MsgpackCodecConstant[JsValue](
-  (packer, js) => Play2Msgpack.json2msgpack(packer, js),
-  unpacker => Play2Msgpack.msgpack2json(unpacker, unpackOptions)
-)
-
-private final class CodecPlay2JsObject(unpackOptions: PlayUnpackOptions) extends MsgpackCodecConstant[JsObject](
-  (packer, js) => Play2Msgpack.jsObj2msgpack(packer, js),
-  unpacker => Play2Msgpack.msgpack2jsObj(unpacker, unpackOptions)
-)
+private final class CodecPlay2JsObject(unpackOptions: PlayUnpackOptions)
+    extends MsgpackCodecConstant[JsObject](
+      (packer, js) => Play2Msgpack.jsObj2msgpack(packer, js),
+      unpacker => Play2Msgpack.msgpack2jsObj(unpacker, unpackOptions)
+    )

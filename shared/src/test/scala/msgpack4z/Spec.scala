@@ -2,7 +2,7 @@ package msgpack4z
 
 import scalaprops._
 import play.api.libs.json._
-import scalaz.{-\/, Equal, \/-}
+import scalaz.{-\/, \/-, Equal}
 
 abstract class SpecBase extends Scalaprops {
 
@@ -20,12 +20,15 @@ abstract class SpecBase extends Scalaprops {
     )
 
   private val jsObjectArb1: Gen[JsObject] =
-    Gen.listOfN(
-      10,
-      Gen.tuple2(
-        Gen[String], jsValuePrimitivesArb
+    Gen
+      .listOfN(
+        10,
+        Gen.tuple2(
+          Gen[String],
+          jsValuePrimitivesArb
+        )
       )
-    ).map(pairs => JsObject(pairs.toMap.toSeq))
+      .map(pairs => JsObject(pairs.toMap.toSeq))
 
   private val jsArrayArb1: Gen[JsArray] =
     Gen.listOfN(10, jsValuePrimitivesArb).map(JsArray(_))
@@ -38,10 +41,12 @@ abstract class SpecBase extends Scalaprops {
     )
 
   implicit val jsObjectArb: Gen[JsObject] =
-    Gen.listOfN(
-      10,
-      Gen.tuple2(Gen[String], jsValueArb)
-    ).map(pairs => JsObject(pairs.toMap.toSeq))
+    Gen
+      .listOfN(
+        10,
+        Gen.tuple2(Gen[String], jsValueArb)
+      )
+      .map(pairs => JsObject(pairs.toMap.toSeq))
 
   implicit val jsArrayArb: Gen[JsArray] =
     Gen.listOfN(10, jsValueArb).map(JsArray(_))
@@ -73,7 +78,7 @@ abstract class SpecBase extends Scalaprops {
   }
 }
 
-object NativeSpec extends SpecBase{
+object NativeSpec extends SpecBase {
   override protected[this] def packer() = MsgOutBuffer.create()
   override protected[this] def unpacker(bytes: Array[Byte]) = MsgInBuffer(bytes)
 }
