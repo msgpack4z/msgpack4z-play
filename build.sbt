@@ -2,24 +2,21 @@ import build._
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform)
+val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("."))
   .settings(
     Common.settings,
     scalapropsCoreSettings,
     name := msgpack4zPlayName,
-    libraryDependencies += {
-      if (scalaBinaryVersion.value == "3") {
-        "com.typesafe.play" %%% "play-json" % "2.10.0-RC9"
-      } else {
-        "com.typesafe.play" %%% "play-json" % "2.9.4"
-      }
-    },
     libraryDependencies ++= Seq(
+      "com.typesafe.play" %%% "play-json" % "2.10.0",
       "com.github.xuwei-k" %%% "msgpack4z-core" % "0.6.1",
       "com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.9" % "test",
       "com.github.scalaprops" %%% "scalaprops" % "0.9.1" % "test",
     )
+  )
+  .nativeSettings(
+    scalapropsNativeSettings
   )
   .jsSettings(
     scalacOptions += {
@@ -45,10 +42,11 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform)
 
 val msgpack4zPlayJVM = msgpack4zPlay.jvm
 val msgpack4zPlayJS = msgpack4zPlay.js
+val msgpack4zPlayNative = msgpack4zPlay.native
 
 Common.settings
 commands += Command.command("testSequential") {
-  List(msgpack4zPlayJVM, msgpack4zPlayJS).map(_.id + "/test") ::: _
+  List(msgpack4zPlayJVM, msgpack4zPlayJS, msgpack4zPlayNative).map(_.id + "/test") ::: _
 }
 PgpKeys.publishLocalSigned := {}
 PgpKeys.publishSigned := {}
