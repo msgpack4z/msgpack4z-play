@@ -15,8 +15,8 @@ abstract class SpecBase extends Scalaprops {
     Gen.oneOf(
       Gen.value(JsNull),
       Gen[Boolean].map(JsBoolean(_)),
-      bigDecimalGen.map(JsNumber),
-      Gen[String].map(JsString)
+      bigDecimalGen.map(JsNumber.apply),
+      Gen[String].map(JsString.apply)
     )
 
   private val jsObjectArb1: Gen[JsObject] =
