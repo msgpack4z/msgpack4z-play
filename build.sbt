@@ -44,16 +44,12 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform).in(file(".")).settings
 val msgpack4zPlayJVM = msgpack4zPlay.jvm
 val msgpack4zPlayJS = msgpack4zPlay.js
 
-val root = Project("root", file(".")).settings(
-  Common.settings,
-  commands += Command.command("testSequential"){
-    List(msgpack4zPlayJVM, msgpack4zPlayJS).map(_.id + "/test") ::: _
-  },
-  PgpKeys.publishLocalSigned := {},
-  PgpKeys.publishSigned := {},
-  publishLocal := {},
-  publish := {},
-  Compile / publishArtifact := false
-).aggregate(
-  msgpack4zPlayJS, msgpack4zPlayJVM
-)
+Common.settings
+commands += Command.command("testSequential"){
+  List(msgpack4zPlayJVM, msgpack4zPlayJS).map(_.id + "/test") ::: _
+}
+PgpKeys.publishLocalSigned := {}
+PgpKeys.publishSigned := {}
+publishLocal := {}
+publish := {}
+Compile / publishArtifact := false
