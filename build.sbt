@@ -13,11 +13,10 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform).in(file(".")).settings
       "com.typesafe.play" %%% "play-json" % "2.9.4"
     }
   },
-  libraryDependencies ++= (
-    ("com.github.xuwei-k" %%% "msgpack4z-core" % "0.6.1") ::
-    ("com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.9" % "test") ::
-    ("com.github.scalaprops" %%% "scalaprops" % "0.9.1" % "test") ::
-    Nil
+  libraryDependencies ++= Seq(
+    "com.github.xuwei-k" %%% "msgpack4z-core" % "0.6.1",
+    "com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.9" % "test",
+    "com.github.scalaprops" %%% "scalaprops" % "0.9.1" % "test",
   )
 ).jsSettings(
   scalacOptions += {
@@ -34,10 +33,9 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform).in(file(".")).settings
   },
   Test / scalaJSStage := FastOptStage
 ).jvmSettings(
-  libraryDependencies ++= (
-    ("com.github.xuwei-k" % "msgpack4z-java" % "0.4.0" % "test") ::
-    ("com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test") ::
-    Nil
+  libraryDependencies ++= Seq(
+    "com.github.xuwei-k" % "msgpack4z-java" % "0.4.0" % "test",
+    "com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test",
   )
 )
 
