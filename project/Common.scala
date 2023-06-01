@@ -7,7 +7,7 @@ import xerial.sbt.Sonatype.autoImport._
 
 object Common {
 
-  val Scala212 = "2.12.17"
+  val Scala212 = "2.12.18"
 
   private[this] val tagName = Def.setting {
     s"v${if (releaseUseGlobalVersion.value) (ThisBuild / version).value else version.value}"
