@@ -10,7 +10,7 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform)
     name := msgpack4zPlayName,
     libraryDependencies += {
       if (scalaBinaryVersion.value == "3") {
-        "com.typesafe.play" %%% "play-json" % "2.10.0-RC8"
+        "com.typesafe.play" %%% "play-json" % "2.10.0-RC9"
       } else {
         "com.typesafe.play" %%% "play-json" % "2.9.4"
       }
