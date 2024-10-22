@@ -9,13 +9,16 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     scalapropsCoreSettings,
     name := msgpack4zPlayName,
     libraryDependencies ++= Seq(
-      "org.playframework" %%% "play-json" % "3.0.4",
       "com.github.xuwei-k" %%% "msgpack4z-core" % "0.6.2",
       "com.github.xuwei-k" %%% "msgpack4z-native" % "0.4.0" % "test",
       "com.github.scalaprops" %%% "scalaprops" % "0.9.1" % "test",
     )
   )
+  .platformsSettings(JVMPlatform, JSPlatform)(
+    libraryDependencies += "org.playframework" %%% "play-json" % "3.0.4",
+  )
   .nativeSettings(
+    libraryDependencies += "org.playframework" %%% "play-json" % "3.1.0-M1",
     scalapropsNativeSettings
   )
   .jsSettings(
