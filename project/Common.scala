@@ -19,9 +19,8 @@ object Common {
 
   private[this] def gitHash(): String = sys.process.Process("git rev-parse HEAD").lineStream_!.head
 
-  private[this] val unusedWarnings = (
-    "-Ywarn-unused" ::
-      Nil
+  private[this] val unusedWarnings = Seq(
+    "-Ywarn-unused",
   )
 
   val settings = Seq(
@@ -62,14 +61,13 @@ object Common {
     organization := "com.github.xuwei-k",
     homepage := Some(url("https://github.com/msgpack4z")),
     licenses := Seq("MIT License" -> url("http://www.opensource.org/licenses/mit-license.php")),
-    scalacOptions ++= (
-      "-target:jvm-1.8" ::
-        "-deprecation" ::
-        "-unchecked" ::
-        "-language:existentials" ::
-        "-language:higherKinds" ::
-        "-language:implicitConversions" ::
-        Nil
+    scalacOptions ++= Seq(
+      "-target:jvm-1.8",
+      "-deprecation",
+      "-unchecked",
+      "-language:existentials",
+      "-language:higherKinds",
+      "-language:implicitConversions",
     ),
     scalacOptions ++= {
       CrossVersion.partialVersion(scalaVersion.value) match {
