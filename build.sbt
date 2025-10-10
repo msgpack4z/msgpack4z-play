@@ -15,7 +15,7 @@ val msgpack4zPlay = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     )
   )
   .platformsSettings(JVMPlatform, JSPlatform)(
-    libraryDependencies += "org.playframework" %%% "play-json" % "3.0.5",
+    libraryDependencies += "org.playframework" %%% "play-json" % "3.0.6",
   )
   .nativeSettings(
     libraryDependencies += "org.playframework" %%% "play-json" % "3.1.0-M3",
