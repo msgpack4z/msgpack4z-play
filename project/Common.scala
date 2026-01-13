@@ -78,7 +78,7 @@ object Common {
       }
     },
     scalaVersion := Scala212,
-    crossScalaVersions := Scala212 :: "2.13.18" :: "3.3.7" :: Nil,
+    crossScalaVersions := Scala212 :: "3.8.0" :: "3.3.7" :: Nil,
     (Compile / doc / scalacOptions) ++= {
       val tag = tagOrHash.value
       CrossVersion.partialVersion(scalaVersion.value) match {
