@@ -26,6 +26,7 @@ jobs:
     - uses: coursier/cache-action@v8
     - uses: sbt/setup-sbt@v1
     - run: sbt -v
+           --server
            scalafmtSbtCheck
            "+ scalafmtCheckAll"
            "+ msgpack4zPlayJVM/test"
