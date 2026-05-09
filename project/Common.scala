@@ -16,8 +16,17 @@ object Common {
 
   private[this] def gitHash(): String = sys.process.Process("git rev-parse HEAD").lineStream_!.head
 
-  private[this] val unusedWarnings = Seq(
-    "-Ywarn-unused",
+  private val unusedWarnings = Def.setting(
+    scalaBinaryVersion.value match {
+      case "2.12" =>
+        Seq(
+          "-Ywarn-unused",
+        )
+      case _ =>
+        Seq(
+          "-Wunused:imports",
+        )
+    }
   )
 
   val settings = Seq(
@@ -62,7 +71,7 @@ object Common {
     scalacOptions ++= {
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2, _)) =>
-          Seq("-Xlint") ++ unusedWarnings
+          Seq("-Xlint") ++ unusedWarnings.value
         case _ =>
           Nil
       }
@@ -105,6 +114,6 @@ object Common {
       val stripTestScope = stripIf { n => n.label == "dependency" && (n \ "scope").text == "test" }
       new RuleTransformer(stripTestScope).transform(node)(0)
     }
-  ) ++ Seq(Compile, Test).flatMap(c => c / console / scalacOptions ~= { _.filterNot(unusedWarnings.toSet) })
+  ) ++ Seq(Compile, Test).flatMap(c => c / console / scalacOptions --= unusedWarnings.value)
 
 }
