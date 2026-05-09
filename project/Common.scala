@@ -6,8 +6,6 @@ import com.jsuereth.sbtpgp.PgpKeys
 
 object Common {
 
-  val Scala212 = "2.12.21"
-
   private[this] val tagName = Def.setting {
     s"v${if (releaseUseGlobalVersion.value) (ThisBuild / version).value else version.value}"
   }
@@ -70,8 +68,6 @@ object Common {
           Nil
       }
     },
-    scalaVersion := Scala212,
-    crossScalaVersions := Scala212 :: "2.13.18" :: "3.3.7" :: Nil,
     (Compile / doc / scalacOptions) ++= {
       val tag = tagOrHash.value
       CrossVersion.partialVersion(scalaVersion.value) match {
