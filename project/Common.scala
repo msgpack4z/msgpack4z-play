@@ -6,7 +6,7 @@ import com.jsuereth.sbtpgp.PgpKeys
 
 object Common {
 
-  private[this] val tagName = Def.setting {
+  private val tagName = Def.setting {
     s"v${if (releaseUseGlobalVersion.value) (ThisBuild / version).value else version.value}"
   }
 
@@ -14,7 +14,7 @@ object Common {
     if (isSnapshot.value) gitHash() else tagName.value
   }
 
-  private[this] def gitHash(): String = sys.process.Process("git rev-parse HEAD").lineStream_!.head
+  private def gitHash(): String = sys.process.Process("git rev-parse HEAD").lazyLines_!.head
 
   private val unusedWarnings = Def.setting(
     scalaBinaryVersion.value match {
