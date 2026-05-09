@@ -28,7 +28,6 @@ jobs:
     - run: sbt -v
            --server
            scalafmtSbtCheck
-           "+ scalafmtCheckAll"
-           "+ msgpack4zPlayJVM/test"
-           "+ msgpack4zPlayJS/test"
-           "+ msgpack4zPlayNative/test"
+           scalafmtCheckAll
+           Test/compile
+           testSequential
