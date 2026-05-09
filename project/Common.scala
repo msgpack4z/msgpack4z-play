@@ -45,14 +45,8 @@ object Common {
       commitReleaseVersion,
       UpdateReadme.updateReadmeProcess,
       tagRelease,
-      ReleaseStep(
-        action = { state =>
-          val extracted = Project extract state
-          extracted.runAggregated(extracted.get(thisProjectRef) / (Global / PgpKeys.publishSigned), state)
-        },
-        enableCrossBuild = true
-      ),
-      releaseStepCommand("sonaRelease"),
+      releaseStepCommandAndRemaining("publishSigned"),
+      releaseStepCommandAndRemaining("sonaRelease"),
       setNextVersion,
       commitNextVersion,
       UpdateReadme.updateReadmeProcess,
