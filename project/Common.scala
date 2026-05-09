@@ -26,7 +26,6 @@ object Common {
     ReleasePlugin.extraReleaseCommands
   ).flatten ++ Seq(
     publishTo := (if (isSnapshot.value) None else localStaging.value),
-    fullResolvers ~= { _.filterNot(_.name == "jcenter") },
     commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
     releaseCrossBuild := true,
     releaseTagName := tagName.value,
