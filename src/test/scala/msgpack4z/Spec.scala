@@ -66,7 +66,7 @@ abstract class SpecBase extends Scalaprops {
         false
     }
 
-  val test = {
+  property("test") = {
     implicit val codecInstance: MsgpackCodec[JsValue] = Play2Msgpack.jsValueCodec(
       PlayUnpackOptions.default
     )
